@@ -26,7 +26,8 @@ defmodule Midi.MixProject do
   defp deps do
     [
       {:ex_check, ">= 0.11.0", only: :dev, runtime: false},
-      {:mix_test_watch, "~> 0.9", only: :dev, runtime: false}
+      {:mix_test_watch, "~> 0.9", only: :dev, runtime: false},
+      {:sobelow, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
 end
