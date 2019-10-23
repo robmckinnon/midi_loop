@@ -22,11 +22,19 @@ secret_key_base =
     environment variable SECRET_KEY_BASE is missing.
     You can generate one by calling: mix phx.gen.secret
     """
+signing_salt =
+  System.get_env("SIGNING_SALT") ||
+    raise """
+    environment variable SIGNING_SALT is missing.
+    You can generate one by calling: mix phx.gen.secret
+    """
 
 config :midi_loop_web, MidiLoopWeb.Endpoint,
   http: [:inet6, port: String.to_integer(System.get_env("PORT") || "4000")],
-  secret_key_base: secret_key_base
-
+  secret_key_base: secret_key_base,
+  live_view: [
+    signing_salt: signing_salt
+  ]
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix

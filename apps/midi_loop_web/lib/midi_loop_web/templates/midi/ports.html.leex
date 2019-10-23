@@ -1,0 +1,22 @@
+<%= if @state.inputs == %{} do %>
+  <div class="eight columns">
+    Connect a USB MIDI device to continue.
+  </div>
+<% else %>
+  <div class="five columns">
+    <h6>MIDI inputs</h6>
+    <ul class="smaller">
+    <%= for input <- @state.inputs |> Map.values() do %>
+      <%= render("port.html", port: input) %>
+    <% end %>
+    </ul>
+  </div>
+  <div class="five columns">
+    <h6>MIDI outputs</h6>
+    <ul class="smaller">
+    <%= for output <- @state.outputs |> Map.values() do %>
+      <%= render("port.html", port: output) %>
+    <% end %>
+    </ul>
+  </div>
+<% end %>

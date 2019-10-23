@@ -16,7 +16,7 @@ defmodule MidiLoopWeb.Router do
   scope "/", MidiLoopWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    live "/", MidiLive
   end
 
   # Other scopes may use custom stacks.

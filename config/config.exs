@@ -22,7 +22,10 @@ config :midi_loop_web, MidiLoopWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "PQLSrtKuu0QAjwgK1Bp4+B5OZdVnwIH3WKHk7YBaXoTaIJqy8qn/D4902eR9qpR5",
   render_errors: [view: MidiLoopWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: MidiLoopWeb.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: MidiLoopWeb.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_view: [
+    signing_salt: "another_dummy_val_for_dev_env"
+  ]
 
 # Configures Elixir's Logger
 config :logger, :console,

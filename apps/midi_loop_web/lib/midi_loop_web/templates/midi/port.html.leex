@@ -1,0 +1,10 @@
+<li>
+  <abbr
+    title="<%= @port.manufacturer %> <%= @port.name %> (<%= @port.id %>)">
+  <%= @port.name %></abbr>:
+  <%= @port.state %>
+  ch:
+  <%= for {x,y} <- @port.channels do %>
+    <%= x %>
+  <% end %>
+</li>

@@ -10,8 +10,16 @@ import css from "../css/app.css"
 // Import dependencies
 //
 import "phoenix_html"
+import "core-js/stable"
+import "regenerator-runtime/runtime"
 
-// Import local files
-//
-// Local files can be imported directly using relative paths, for example:
-// import socket from "./socket"
+import {Socket} from "phoenix"
+import LiveSocket from "phoenix_live_view"
+import ConnectMidi from "./connect_midi"
+
+const Hooks = {
+  ConnectMidi
+}
+
+let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks })
+liveSocket.connect()
