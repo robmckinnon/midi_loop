@@ -75,8 +75,6 @@ defmodule Midi.MessageHandler do
         [[{number} | start_end_beats] | grid]
       end
 
-    # IO.inspect(start_end_beats)
-
     %{
       events: [{time, rel_time, @nil_duration, @nil_beats, note} | events],
       grid: grid_update,
@@ -100,8 +98,17 @@ defmodule Midi.MessageHandler do
     grid: []
   }
 
-  def init_state(channel, state, time) do
+  def init_state(channel, state, time, port_id, channel_mode_message) do
     state = init_time(state, time)
+    state = if !(state.inputs[port_id].channels |> Map.has_key?(channel)) do
+      if channel_mode_message do
+        state
+      else
+        put_in(state.inputs[port_id].channels[channel], channel)
+      end
+    else
+      state
+    end
 
     if state.channels[channel] == nil do
       put_in(state.channels[channel], @initial_channel_state)
@@ -123,8 +130,8 @@ defmodule Midi.MessageHandler do
     handle_message(@note_off, note, 0, channel, port_id, time, state)
   end
 
-  def handle_message(@note_on, note, velocity, channel, _port_id, time, state) do
-    state = init_state(channel, state, time)
+  def handle_message(@note_on, note, velocity, channel, port_id, time, state) do
+    state = init_state(channel, state, time, port_id, false)
 
     updated =
       note_on(
@@ -145,13 +152,16 @@ defmodule Midi.MessageHandler do
         note_off(time, state.initial_time, state.ms_per_beat, note, state.channels[channel])
 
       state = put_in(state.channels[channel], updated)
-      # IO.inspect(state.channels)
+      state
+    else
       state
     end
   end
 
-  def handle_message(@control_change, key, value, channel, _port_id, time, state) do
-    state = init_state(channel, state, time)
+  @channel_mode_messages [120,121,122,123,124,125,126,127]
+  def handle_message(@control_change, key, value, channel, port_id, time, state) do
+    channel_mode_message = key in @channel_mode_messages
+    state = init_state(channel, state, time, port_id, channel_mode_message)
 
     # IO.puts([
     #   "CC ",

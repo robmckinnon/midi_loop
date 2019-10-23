@@ -4,6 +4,6 @@ defmodule Midi.Port do
 
   See: http://webaudio.github.io/web-midi-api/#midiport-interface
   """
-  @enforce_keys [:id, :manufacturer, :name, :type, :version, :state, :connection]
-  defstruct [:id, :manufacturer, :name, :type, :version, :state, :connection]
+  @enforce_keys [:id, :manufacturer, :name, :type, :version, :state, :connection, :channels]
+  defstruct [:id, :manufacturer, :name, :type, :version, :state, :connection, :channels]
 end

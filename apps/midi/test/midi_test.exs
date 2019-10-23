@@ -17,27 +17,28 @@ defmodule MidiTest do
     end
 
     @port %{
-      "id" => "id",
+      "id" => "123",
       "manufacturer" => "manufacturer",
       "name" => "name",
       "type" => "type",
       "version" => "version",
       "state" => "state",
-      "connection" => "connection"
+      "connection" => "connection",
+      "channels" => %{}
     }
 
     test "adds midi_input" do
       state = struct(State)
       input = @port
       state = Midi.midi_input(input, state)
-      assert %Port{} = state.inputs |> Map.get("id")
+      assert %Port{} = state.inputs |> Map.get(@port["id"])
     end
 
     test "adds midi_output" do
       state = struct(State)
       output = @port
       state = Midi.midi_output(output, state)
-      assert %Port{} = state.outputs |> Map.get("id")
+      assert %Port{} = state.outputs |> Map.get(@port["id"])
     end
 
     test "increments tempo" do
@@ -64,11 +65,13 @@ defmodule MidiTest do
     test "handle_message adds new note on" do
       state = struct(State)
       channel = 11
-      port_id = "1649372164"
+      port_id = @port["id"]
       time = 1_052_287.6999999862
       rel_time = 0
       nil_duration = nil
       nil_beats = nil
+
+      state = Midi.midi_input(@port, state)
       state = Midi.handle_message(144, 59, 127, channel, port_id, time, state)
 
       assert state.channels |> Map.get(channel) ==
@@ -80,14 +83,15 @@ defmodule MidiTest do
                  notes_on: %{59 => %Midi.Note{number: 59, velocity: 127}},
                  grid: []
                }
-
+      assert %Port{channels: channels } = state.inputs[port_id]
+      assert channels[channel] == channel
       assert state.initial_time == time
     end
 
     test "handle_message adds note off and grid entry" do
       state = struct(State)
       channel = 11
-      port_id = "1649372164"
+      port_id = @port["id"]
       time = 1_052_287.6999999862
       time2 = 1_062_917.9749999894
       rel_time = 0.0
@@ -96,6 +100,7 @@ defmodule MidiTest do
       nil_beats = nil
       duration = time2 - time
       beats = duration / state.ms_per_beat
+      state = Midi.midi_input(@port, state)
       state = Midi.handle_message(144, 59, 127, channel, port_id, time, state)
       state = Midi.handle_message(128, 59, 0, channel, port_id, time2, state)
 
@@ -116,9 +121,10 @@ defmodule MidiTest do
     test "handle_message adds control change" do
       state = struct(State)
       channel = 11
-      port_id = "1649372164"
+      port_id = @port["id"]
       time = 1_052_287.6999999862
       rel_time = 0
+      state = Midi.midi_input(@port, state)
       state = Midi.handle_message(176, 59, 127, channel, port_id, time, state)
 
       assert state.channels |> Map.get(channel) ==

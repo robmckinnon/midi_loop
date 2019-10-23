@@ -34,7 +34,8 @@ defmodule Midi do
       type: type,
       version: version,
       state: state,
-      connection: connection
+      connection: connection,
+      channels: %{}
     }
   end
 
