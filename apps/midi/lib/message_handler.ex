@@ -62,18 +62,24 @@ defmodule Midi.MessageHandler do
     {events, duration} = set_note_duration(number, time, ms_per_beat, events)
     rel_time = time - initial_time
 
-    start_end_beats =
-      Quantise.start_end_beats(
-        round(rel_time - duration),
-        round(duration),
-        round(ms_per_beat / 4)
-      )
+    grid_update = case duration do
+      nil ->
+        grid
+      _ ->
+        start_end_beats =
+          Quantise.start_end_beats(
+            round(rel_time - duration),
+            round(duration),
+            round(ms_per_beat / 4)
+          )
+        [[{number} | start_end_beats] | grid]
+      end
 
     # IO.inspect(start_end_beats)
 
     %{
       events: [{time, rel_time, @nil_duration, @nil_beats, note} | events],
-      grid: [[{number} | start_end_beats] | grid],
+      grid: grid_update,
       notes_on: notes_on
     }
   end
