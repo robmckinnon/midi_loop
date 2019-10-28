@@ -3,7 +3,7 @@
     Connect a USB MIDI device to continue.
   </div>
 <% else %>
-  <div class="five columns">
+  <div class="four columns">
     <h6>MIDI inputs</h6>
     <ul class="smaller">
     <%= for input <- @state.inputs |> Map.values() do %>
@@ -11,7 +11,7 @@
     <% end %>
     </ul>
   </div>
-  <div class="five columns">
+  <div class="four columns">
     <h6>MIDI outputs</h6>
     <ul class="smaller">
     <%= for output <- @state.outputs |> Map.values() do %>
