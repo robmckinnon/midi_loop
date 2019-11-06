@@ -37,6 +37,7 @@ defmodule MidiLoop.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.1"},
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"}
     ]
@@ -52,7 +53,8 @@ defmodule MidiLoop.MixProject do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate", "test"],
+      "test.focus": ["test --only focus"]
     ]
   end
 end
