@@ -16,9 +16,11 @@ import "regenerator-runtime/runtime"
 import {Socket} from "phoenix"
 import LiveSocket from "phoenix_live_view"
 import ConnectMidi from "./connect_midi"
+import ReadMidi from "./read_midi_file"
 
 const Hooks = {
-  ConnectMidi
+  ConnectMidi,
+  ReadMidi
 }
 
 let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks })

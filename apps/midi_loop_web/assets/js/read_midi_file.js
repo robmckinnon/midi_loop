@@ -1,10 +1,14 @@
-import {MidiParser} from 'midi-parser.js'
+const midiParser  = require('midi-parser-js')
 
-// select the INPUT element that will handle
-// the file selection.
-let source = document.getElementById('filereader');
+const MIDI_FILE_MESSAGE = "mid"
 
-// provide the File source and a callback function
-MidiParser.parse( source, function(obj){
-  console.log(obj);
-});
+const ReadMidi = {
+  mounted() {
+    midiParser.parse(this.el, obj => {
+      const ctx = this
+      ctx.pushEvent(MIDI_FILE_MESSAGE, { mid: obj })
+    })
+  }
+}
+
+export default ReadMidi

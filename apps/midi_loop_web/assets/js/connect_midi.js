@@ -1,4 +1,5 @@
 import requestMidiAccess from "./setup_midi"
+import setupReader from "./read_midi_file"
 
 const ConnectMidi = {
   mounted() {
@@ -9,11 +10,12 @@ const ConnectMidi = {
       alert("This browser does not support Web MIDI. Try site in Chrome browser.")
       return
     } else {
-      const _this = this
+      const ctx = this
       const handler = () => {
         const requestAccess = requestMidiAccess
+        const setupRead = setupReader
         console.log('Request access...')
-        requestAccess(navigator, _this)
+        requestAccess(navigator, ctx)
       }
       this.el.addEventListener("click", handler)
     }

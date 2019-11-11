@@ -4,7 +4,7 @@
   <%= @port.name %></abbr>:
   <%= @port.state %>
   ch:
-  <%= for {x,y} <- @port.channels do %>
-    <%= x %>
+  <%= for {x,_y} <- @port.channels do %>
+    <%= x %>,
   <% end %>
 </li>

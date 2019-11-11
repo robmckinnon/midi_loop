@@ -42,8 +42,6 @@ const updatePort = (port, ctx) => {
 const requestMidiAccess = async (navigator, ctx) => {
   try {
     const midiAccess = await navigator.requestMIDIAccess()
-    console.log(util.inspect(midiAccess))
-
     midiAccess.inputs.forEach(midiInput => updatePort(midiInput, ctx))
     midiAccess.outputs.forEach(midiOutput => updatePort(midiOutput, ctx))
     midiAccess.onstatechange = ({ port }) => updatePort(port, ctx)
