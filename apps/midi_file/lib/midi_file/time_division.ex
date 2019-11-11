@@ -1,9 +1,11 @@
-defmodule MidiLoop.MidiFiles do
+defmodule MidiFile.TimeDivision do
+  @moduledoc false
+
   require Bitwise
 
   @time_division_is_frames 0x8000
 
-  def process_time_division({%{"timeDivision" => time_division} = mid, derived}) do
+  def process_time_division({mid = %{time_division: time_division}, derived}) do
     if time_division_is_frames?(time_division) do
       # todo handle frames
       {mid, derived}

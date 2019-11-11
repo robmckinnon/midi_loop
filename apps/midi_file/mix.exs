@@ -1,10 +1,10 @@
-defmodule Midi.MixProject do
+defmodule MidiFile.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :midi,
-      version: "0.1.0",
+      app: :midi_file,
+      version: "0.0.1",
       build_path: "../../_build",
       config_path: "../../config/config.exs",
       deps_path: "../../deps",
@@ -25,9 +25,7 @@ defmodule Midi.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ex_check, ">= 0.11.0", only: :dev, runtime: false},
-      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
-      {:sobelow, ">= 0.0.0", only: :dev, runtime: false}
+      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false}
     ]
   end
 end
