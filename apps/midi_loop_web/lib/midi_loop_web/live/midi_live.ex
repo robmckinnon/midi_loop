@@ -38,11 +38,32 @@ defmodule MidiLoopWeb.MidiLive do
     {:noreply, assign(socket, state: new_state)}
   end
 
+  @midi_file "mid"
+  def handle_event(@midi_file, mid, %{assigns: _assigns} = socket) do
+    File.write("~/mid.mid", IO.inspect(mid, limit: :infinity))
+
+    mid = mid |> AtomicMap.convert(%{safe: false}) |> Map.get(:mid)
+
+    {_mid, derived} =
+      {mid, %{}}
+      |> MidiFile.process_time_division()
+      |> MidiFile.process_set_tempo()
+      |> MidiFile.process_time_signature()
+
+    IO.inspect(derived)
+    {:noreply, socket}
+  end
+
   @status_byte 0xF0
   @channel_byte 0x0F
 
+  @midi_message "m"
+
+  @doc """
+  Handle MIDI message event.
+  """
   def handle_event(
-        "m",
+        @midi_message,
         %{
           "d" => %{"0" => status, "1" => key, "2" => value},
           "i" => port_id,
@@ -60,7 +81,7 @@ defmodule MidiLoopWeb.MidiLive do
   end
 
   def handle_event(
-        "m",
+        @midi_message,
         %{
           "d" => %{"0" => status, "1" => key},
           "i" => port_id,
