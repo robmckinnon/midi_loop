@@ -4,6 +4,7 @@ defmodule MidiFile.SetTempo do
   import MidiFile, only: [apply_to_meta_type: 4]
   # 81
   @set_tempo 0x51
+  def meta_type, do: @set_tempo
 
   def process_set_tempo({%{track: [track | _tail]} = mid, derived}) when is_map(track) do
     {mid, @set_tempo |> apply_to_meta_type(&set_tempo/2, track, derived)}

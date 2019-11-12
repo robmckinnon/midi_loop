@@ -4,6 +4,7 @@ defmodule MidiFile.TimeSignature do
   import MidiFile, only: [apply_to_meta_type: 4]
   # 88
   @time_signature 0x58
+  def meta_type, do: @time_signature
 
   def process_time_signature({%{track: [track | _tail]} = mid, derived}) do
     {mid, @time_signature |> apply_to_meta_type(&time_signature/2, track, derived)}

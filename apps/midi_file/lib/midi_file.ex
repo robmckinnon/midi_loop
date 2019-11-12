@@ -2,7 +2,7 @@ defmodule MidiFile do
   @moduledoc """
   MidiFile processing.
   """
-  alias MidiFile.{SetTempo, TimeDivision, TimeSignature}
+  alias MidiFile.{KeySignature, SetTempo, TimeDivision, TimeSignature}
 
   defp filter_meta_type(events, value) do
     events
@@ -21,4 +21,6 @@ defmodule MidiFile do
   defdelegate process_set_tempo(mid_derived_tuple), to: SetTempo
 
   defdelegate process_time_signature(mid_derived_tuple), to: TimeSignature
+
+  defdelegate process_key_signature(mid_derived_tuple), to: KeySignature
 end
