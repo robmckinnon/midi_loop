@@ -65,7 +65,12 @@ defmodule MidiFileTest do
           type: 255
         })
 
-      expected = %{denom: 4.0, metro: 24, numer: 4, thirty_seconds: 8}
+      expected = %{
+        denom: 4,
+        metro_clicks_per_tick: 24,
+        numer: 4,
+        thirty_second_notes_per_beat: 8
+      }
 
       assert {mid, expected} ==
                MidiFile.process_time_signature({mid, %{}})

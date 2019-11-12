@@ -18,8 +18,8 @@ defmodule MidiFile.TimeSignature do
     |> Map.merge(%{
       numer: data0,
       denom: :math.pow(2, data1),
-      metro: data2,
-      thirty_seconds: data3
+      metro_clicks_per_tick: data2,
+      thirty_second_notes_per_beat: data3
     })
   end
 
