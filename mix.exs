@@ -5,6 +5,7 @@ defmodule MidiLoop.Umbrella.MixProject do
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -25,6 +26,12 @@ defmodule MidiLoop.Umbrella.MixProject do
     [
       {:credo, ">= 0.0.0", only: :dev, runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+    ]
+  end
+
+  defp aliases do
+    [
+      "test.focus": ["test.watch --only focus"]
     ]
   end
 end
