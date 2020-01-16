@@ -14,10 +14,12 @@ defmodule MidiFile.TimeSignature do
         [%{data: [data0, data1, data2, data3], meta_type: @time_signature}],
         derived
       ) do
+    {denom, _} = :math.pow(2, data1) |> Float.to_string() |> Integer.parse()
+
     derived
     |> Map.merge(%{
       numer: data0,
-      denom: :math.pow(2, data1),
+      denom: denom,
       metro_clicks_per_tick: data2,
       thirty_second_notes_per_beat: data3
     })

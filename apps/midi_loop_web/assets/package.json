@@ -6,6 +6,7 @@
     "watch": "webpack --mode development --watch"
   },
   "dependencies": {
+    "func-midi-parser": "github:robmckinnon/func-midi-parser#2452b7751589b1aed438576dd897660d73b4abaf",
     "midi-parser-js": "^4.0.4",
     "phoenix": "file:../../../deps/phoenix",
     "phoenix_html": "file:../../../deps/phoenix_html",

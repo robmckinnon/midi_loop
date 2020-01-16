@@ -11,6 +11,7 @@ defmodule MidiFile.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
       deps: deps()
     ]
   end
@@ -26,6 +27,12 @@ defmodule MidiFile.MixProject do
   defp deps do
     [
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false}
+    ]
+  end
+
+  defp aliases do
+    [
+      "test.focus": ["test.watch --only focus"]
     ]
   end
 end

@@ -6,6 +6,29 @@ defmodule MidiFile.KeySignature do
   @key_signature 0x59
   def meta_type, do: @key_signature
 
+  def process_event(%{
+        data: [data0, data1],
+        delta_time: delta_time,
+        meta_type: @key_signature,
+        type: 255
+      }) do
+    tonic_mode(data0, data1)
+    |> Map.merge(%{delta_time: delta_time})
+  end
+
+  defp tonic_mode(data0, data1) do
+    mode =
+      case data1 do
+        0 -> :major
+        1 -> :minor
+      end
+
+    %{
+      mode: mode,
+      tonic: tonic(mode, data0)
+    }
+  end
+
   def process_key_signature({%{track: [track | _tail]} = mid, derived}) do
     {
       mid,
@@ -17,19 +40,8 @@ defmodule MidiFile.KeySignature do
         [%{data: [data0, data1], meta_type: @key_signature}],
         derived
       ) do
-    scale =
-      case data1 do
-        0 -> :major
-        1 -> :minor
-      end
-
-    key = tonic(scale, data0)
-
     derived
-    |> Map.merge(%{
-      mode: scale,
-      tonic: key
-    })
+    |> Map.merge(tonic_mode(data0, data1))
   end
 
   def key_signature(_, derived), do: derived
@@ -50,7 +62,7 @@ defmodule MidiFile.KeySignature do
       -4 -> :Ab
       -5 -> :Db
       -6 -> :Gb
-      -7 -> nil
+      -7 -> :Cb
     end
   end
 

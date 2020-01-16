@@ -44,11 +44,7 @@ defmodule MidiLoopWeb.MidiLive do
 
     mid = mid |> AtomicMap.convert(%{safe: false}) |> Map.get(:mid)
 
-    {_mid, derived} =
-      {mid, %{}}
-      |> MidiFile.process_time_division()
-      |> MidiFile.process_set_tempo()
-      |> MidiFile.process_time_signature()
+    {_mid, derived} = MidiFile.process(mid)
 
     IO.inspect(derived)
     {:noreply, socket}
